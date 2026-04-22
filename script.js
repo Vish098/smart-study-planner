@@ -10,17 +10,33 @@ function addTask() {
     }
 
     let li = document.createElement("li");
-    li.innerText = subject + " - " + hours + " hrs";
+
+    li.innerHTML = subject + " - " + hours + " hrs " +
+        "<button onclick='removeTask(this," + hours + ")'>❌</button>";
 
     document.getElementById("list").appendChild(li);
 
     totalHours += hours;
-
-    document.getElementById("total").innerText =
-        "Total Study Hours: " + totalHours;
+    updateTotal();
 
     document.getElementById("subject").value = "";
     document.getElementById("hours").value = "";
+}
+
+function removeTask(btn, hours) {
+    btn.parentElement.remove();
+    totalHours -= hours;
+    updateTotal();
+}
+
+function updateTotal() {
+    let message = "Total Study Hours: " + totalHours;
+
+    if (totalHours > 8) {
+        message += " ⚠️ Too much workload!";
+    }
+
+    document.getElementById("total").innerText = message;
 }
 
 function clearAll() {
